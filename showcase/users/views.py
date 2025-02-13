@@ -4,17 +4,21 @@ from django.shortcuts import render, redirect
 from .models import CustomUser
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
-from django.contrib.auth import get_user_model
 from .forms import CustomUserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-User = get_user_model()
 
 class RegisterView(CreateView):
-    model = User
     form_class = CustomUserCreationForm
-    template_name = "register.html"
+    template_name = "components/form_component.html"
     success_url = reverse_lazy("login")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Register"
+        context["description"] = "Create a new account to access all features."
+        context["submit_text"] = "Sign Up"
+        return context
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
