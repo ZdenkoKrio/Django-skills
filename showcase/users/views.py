@@ -3,8 +3,8 @@ from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from .models import CustomUser
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView
-from .forms import CustomUserCreationForm
+from django.views.generic import CreateView, TemplateView, UpdateView
+from .forms import CustomUserCreationForm, UserUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -27,6 +27,23 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
 class SettingsView(LoginRequiredMixin, TemplateView):
     template_name = "settings.html"
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    form_class = UserUpdateForm
+    template_name = "components/form_component.html"
+    success_url = reverse_lazy("profile")
+
+    def get_object(self):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Edit Profile"
+        context["description"] = "Update your profile details."
+        context["submit_text"] = "Save Changes"
+        return context
 
 
 @permission_required("users.can_edit_articles")

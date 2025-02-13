@@ -3,17 +3,26 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<h2>Profile</h2>
+<div class="container">
+    <h2>Profile</h2>
 
-<p><strong>Username:</strong> {{ user.username }}</p>
-<p><strong>Email:</strong> {{ user.email }}</p>
-<p><strong>Role:</strong> {{ user.role }}</p>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Role:</strong> {{ user.role }}</p>
 
-{% if user.profile_picture %}
-    <p><strong>Profile Picture:</strong></p>
-    <img src="{{ user.profile_picture.url }}" alt="Profile Picture" style="max-width: 150px; border-radius: 50%;">
-{% endif %}
+    {% if user.profile_picture %}
+        <p><strong>Profile Picture:</strong></p>
+        <img src="{{ user.profile_picture.url }}" alt="Profile Picture" style="max-width: 150px; border-radius: 50%;">
+    {% else %}
+        <p><strong>Profile Picture:</strong> No profile picture uploaded.</p>
+    {% endif %}
 
-<p><a href="{% url 'settings' %}">Go to Settings</a></p>
+    {% if user.bio %}
+        <p><strong>Bio:</strong> {{ user.bio }}</p>
+    {% else %}
+        <p><strong>Bio:</strong> No bio available.</p>
+    {% endif %}
 
+    <a href="{% url 'profile_update' %}" class="btn btn-primary">Edit Profile</a>
+</div>
 {% endblock %}
