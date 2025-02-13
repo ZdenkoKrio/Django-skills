@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<h2>Settings</h2>
+
+<p><a href="{% url 'password_change' %}">Change Password</a></p>
+
+<h3>Theme</h3>
+<select id="theme-select">
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+</select>
+<button id="save-theme-btn" class="btn btn-primary mt-2">Save Theme</button>
+
+<p id="theme-message" style="display: none; color: green; margin-top: 10px;">Theme saved!</p>
+{% endblock %}
